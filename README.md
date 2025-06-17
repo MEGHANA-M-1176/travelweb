@@ -1,113 +1,107 @@
-# Travel Project
+# Backend Setup Instructions
 
-A Node.js travel booking application with flight search and user registration functionality.
+## Files Created:
+1. **package.json** - Dependencies and project configuration
+2. **server.js** - Main server file with all API endpoints
+3. **users.json** - User data storage (with sample users)
+4. **.env** - Environment variables configuration
 
-## Project Structure
+## Installation Steps:
 
-```
-travel-project/
-├── node_modules/
-├── public/
-│   ├── index.html
-│   └── users.json
-├── package.json
-├── package-lock.json
-├── server.js
-└── users.json
-```
-
-## Features
-
-- Flight search functionality
-- User registration system
-- Admin panel to view registered users
-- Static file serving for frontend
-- CORS enabled for cross-origin requests
-
-## Prerequisites
-
-- Node.js (version compatible with the dependencies)
-- npm (comes with Node.js)
-
-## Installation
-
-1. Clone or download the project
-2. Navigate to the project directory
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-## Usage
-
-### Start the server
+### 1. Install Dependencies
+Run this command to install all packages and generate package-lock.json:
 ```bash
-npm start
+npm install
 ```
 
-### Development mode (with auto-restart)
+This will automatically create:
+- **package-lock.json** - Exact dependency versions
+- **node_modules/** - All installed packages
+
+### 2. Additional Files to Create
+
+Create these additional JSON files in your root directory:
+
+**bookings.json** (create empty file):
+```json
+[]
+```
+
+**flights.json** (will be auto-created with sample data when server starts)
+
+### 3. Create Public Directory
+```bash
+mkdir public
+```
+Then move your HTML frontend file to `public/index.html`
+
+### 4. Project Structure
+```
+your-travel-project/
+├── node_modules/          (auto-generated)
+├── public/
+│   └── index.html        (your frontend)
+├── .env
+├── package.json
+├── package-lock.json     (auto-generated)
+├── server.js
+├── users.json
+├── bookings.json
+└── flights.json          (auto-generated)
+```
+
+## Running the Application:
+
+### Development Mode:
 ```bash
 npm run dev
 ```
 
-The server will run on `http://localhost:3000`
+### Production Mode:
+```bash
+npm start
+```
 
-## API Endpoints
+## API Endpoints Available:
 
-### GET /api/test
-- **Description**: Basic connectivity test
-- **Response**: `{ "message": "Backend connected!" }`
+### Authentication:
+- POST `/api/auth/register` - User registration
+- POST `/api/auth/login` - User login  
+- GET `/api/auth/profile` - Get user profile (requires auth)
 
-### POST /api/search
-- **Description**: Search for flights
-- **Body**:
-  ```json
-  {
-    "from": "Origin City",
-    "to": "Destination City", 
-    "departure": "2024-01-01"
-  }
-  ```
-- **Response**: Array of flight results with mock data
+### Flights:
+- POST `/api/flights/search` - Search flights
+- GET `/api/destinations/popular` - Get popular destinations
 
-### POST /api/register
-- **Description**: Register a new user
-- **Body**:
-  ```json
-  {
-    "name": "User Name",
-    "email": "user@example.com",
-    "password": "password"
-  }
-  ```
-- **Response**: Registration confirmation or error message
+### Bookings:
+- POST `/api/bookings/flight` - Book a flight (requires auth)
+- GET `/api/bookings` - Get user bookings (requires auth)
 
-### GET /api/admin/users
-- **Description**: View all registered users (admin endpoint)
-- **Response**: Array of all users
+### Utility:
+- GET `/api/health` - Health check
+- GET `/` - Serve frontend
 
-## Dependencies
+## Sample Users (for testing):
+- **Email:** john.doe@example.com, **Password:** password123
+- **Email:** jane.smith@example.com, **Password:** password123  
+- **Email:** admin@wanderlust.com, **Password:** admin123
 
-- **cors**: ^2.8.5 - Enables Cross-Origin Resource Sharing
-- **express**: ^5.1.0 - Web framework for Node.js
-- **nodemon**: ^3.1.10 - Development tool for auto-restarting server
+## Features Included:
+- ✅ User authentication with JWT
+- ✅ Password hashing with bcrypt
+- ✅ Rate limiting
+- ✅ CORS configuration
+- ✅ Input validation with Joi
+- ✅ Flight search functionality
+- ✅ Booking system
+- ✅ Error handling
+- ✅ Security headers with Helmet
+- ✅ Request logging with Morgan
+- ✅ Environment configuration
 
-## Frontend
-
-The frontend files are served from the `public` directory. Access the main application at `http://localhost:3000` after starting the server.
-
-## Data Storage
-
-User data is stored in `users.json` files. Currently using file-based storage with JSON format.
-
-## Important Notes
-
-- This is a development/demo application
-- Passwords are stored in plain text (not suitable for production)
-- No authentication middleware implemented
-- Admin endpoint has no access control
-- Uses mock data for flight search results
-
-## Development
-
-The project uses nodemon for development, which automatically restarts the server when files change. Use `npm run dev` to start in development mode.
+## Next Steps:
+1. Run `npm install` to generate package-lock.json and node_modules
+2. Update the .env file with your actual configuration
+3. Create the public directory and move your frontend files
+4. Test the API endpoints with Postman or similar tool
+5. Connect your frontend to use these API endpoints
